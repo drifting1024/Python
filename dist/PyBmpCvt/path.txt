@@ -1,0 +1,24 @@
+#需要转化的图片存放的路径
+RES_IMG_ROOT_PATH=E:\SVN_Server\SMD146\Document\Development Document\Requirement\HMI\UI\resources
+
+#存放 转换后的bitmap.c文件 的路径
+RES_FILE_ROOT_PATH=E:\SVN_Server\SMD146\branches\D365_PC\Application\resources
+
+#资源文件细分目录（图片及.c下需要保持一致）
+COMMON_RES_DIR=Common
+THEME1_RES_DIR=Theme1
+#THEME2_RES_DIR=
+#THEME3_RES_DIR=
+
+#分区宏
+COMMON_SECTION_MACROS=#pragma ghs section rodata = ".comdata"
+THEME1_SECTION_MACROS=#pragma ghs section rodata = ".theme1data"
+THEME2_SECTION_MACROS=#pragma ghs section rodata = ".theme2data"
+THEME3_SECTION_MACROS=#pragma ghs section rodata = ".theme3data"
+
+#在此字符串之前插入分区宏(bitmap.c)
+SEEK_STR=#ifndef GUI_CONST_STORAGE
+
+#是否需要进行分区宏的插入
+MACROS_INSERT_CONFIG = 0
+
