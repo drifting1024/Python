@@ -7,18 +7,18 @@ RES_FILE_ROOT_PATH=E:\SVN_Server\SMD146\branches\D365_PC\Application\resources
 #资源文件细分目录（图片及.c下需要保持一致）
 COMMON_RES_DIR=Common
 THEME1_RES_DIR=Theme1
-#THEME2_RES_DIR=
-#THEME3_RES_DIR=
+#THEME2_RES_DIR=Theme2
+#THEME3_RES_DIR=Theme3
 
 #分区宏
-COMMON_SECTION_MACROS=#pragma ghs section rodata = ".comdata"
-THEME1_SECTION_MACROS=#pragma ghs section rodata = ".theme1data"
-THEME2_SECTION_MACROS=#pragma ghs section rodata = ".theme2data"
-THEME3_SECTION_MACROS=#pragma ghs section rodata = ".theme3data"
+COMMON_SECTION_MACROS=#ifndef WIN32 #pragma ghs section rodata = ".comdata" #endif
+THEME1_SECTION_MACROS=#ifndef WIN32 #pragma ghs section rodata = ".theme1data" #endif
+THEME2_SECTION_MACROS=#ifndef WIN32 #pragma ghs section rodata = ".theme2data" #endif
+THEME3_SECTION_MACROS=#ifndef WIN32 #pragma ghs section rodata = ".theme3data" #endif
 
 #在此字符串之前插入分区宏(bitmap.c)
 SEEK_STR=#ifndef GUI_CONST_STORAGE
 
 #是否需要进行分区宏的插入
-MACROS_INSERT_CONFIG = 0
+MACROS_INSERT_CONFIG = 1
 

@@ -21,8 +21,9 @@ import tkinter
 #BmpCvt命令行用法——BmpCvt 5.36c Help菜单，版本不一样，命令行参数不一样
 #BmpCvt logo.bmp -convertintobestpalette -saveaslogo,1 -exit
 #图片转换
-def BmpCvtFunc():
-    Cnt = 0
+def PicCvtFunc():
+    BmpCnt = 0
+    JpgCnt = 0
     for root, dirs, files in os.walk(RES_IMG_ROOT_PATH, topdown = False):
         for name in files:
 #            print(os.path.join(root, name))
@@ -31,14 +32,22 @@ def BmpCvtFunc():
             newname = name[:-4]
 #        png/bmp转换,图片命名中带有（）或路径有空格的，图片名需要用双引号来包含
             if newtype == 'png' or newtype == 'bmp':
-                Cnt = Cnt + 1
+                BmpCnt = BmpCnt + 1
                 if newname.find('(') == -1 and newname.find(')') and newpath.find(' ')== -1:
                     cmd = "BmpCvt " + newpath + " -saveas" + newname + ".c" +",1,29" + " -exit"
                 else:
                     cmd = "BmpCvt " + "\"" + newpath + "\"" + " -saveas" + "\"" + newname + ".c"  + "\"" +",1,29" + " -exit"
                 os.system(cmd)
-    print("Convert picture num: %d"%Cnt)
-
+#        jpg转换,图片命名中带有（）或路径有空格的，图片名需要用双引号来包含
+            if newtype == 'jpg':
+                JpgCnt = JpgCnt + 1
+                if newname.find('(') == -1 and newname.find(')') and newpath.find(' ')== -1:
+                    cmd = "Bin2C " + newpath
+                else:
+                    cmd = "Bin2C " + "\"" + newpath + "\""
+                os.system(cmd)
+    print("Convert PNG/BMP picture num: %d"%BmpCnt)
+    print("Convert JPG picture num: %d"%JpgCnt)
 
 
 #源文件拷贝
@@ -67,7 +76,7 @@ def InsertMacrosFunc(dstdir, macros):
                 filetype = name[-2:]
                 if filetype == ".c":
                     name = os.path.join(root, name)
-                    if name.find("fonts") == -1:
+                    if name.find("fonts") == -1 and name.find("Font") == -1 and name.find("resources.c") == -1:
                         with open(name, 'r') as _objfiler:
                             _confile = _objfiler.read()
                             pos = _confile.find(macros)
@@ -191,7 +200,7 @@ if __name__ == "__main__":
     file.write("#ifndef _IMAGE_FLASH_H\n#define _IMAGE_FLASH_H\n\n#include \"GUI.h\"\n\n")
     file.close()
 
-    BmpCvtFunc()
+    PicCvtFunc()
     GenerateHeadFile(RES_IMG_ROOT_PATH)
 
     file = open("image_flash.txt", 'a+')
@@ -212,7 +221,8 @@ if __name__ == "__main__":
     #延时3S
     os.system("ping 127.0.0.1 -n 4 >nul")
 
-    if (MACROS_INSERT_CONFIG == 1):
+    MACROS_INSERT_CONFIG = int(MACROS_INSERT_CONFIG)
+    if MACROS_INSERT_CONFIG == 1:
         COMMON_RES_DIR = os.path.join(RES_FILE_ROOT_PATH, COMMON_RES_DIR)
         THEME1_RES_DIR = os.path.join(RES_FILE_ROOT_PATH, THEME1_RES_DIR)
         THEME2_RES_DIR = os.path.join(RES_FILE_ROOT_PATH, THEME2_RES_DIR)
@@ -221,3 +231,5 @@ if __name__ == "__main__":
         InsertMacrosFunc(THEME1_RES_DIR, THEME1_SECTION_MACROS)
         InsertMacrosFunc(THEME2_RES_DIR, THEME2_SECTION_MACROS)
         InsertMacrosFunc(THEME3_RES_DIR, THEME3_SECTION_MACROS)
+    else:
+        os.system("ping 127.0.0.1 -n 4 >nul")
